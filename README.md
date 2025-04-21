@@ -50,6 +50,7 @@ Referensi Jurnal :
 - Jumlah data
   - movies: 62.423 baris dan 3 kolom (movieId, title, genres)
   - ratings: 25.000.095 baris dan 4 kolom (userId, movieId, rating, timestamp)
+- Sumber data: [Movie Recommendation System](https://www.kaggle.com/datasets/parasharmanas/movie-recommendation-system)
 
 Variabel-variabel pada Movie Recommendation System dataset adalah sebagai berikut:
 
