@@ -69,24 +69,31 @@ Pada proyek ini, beberapa tahapan Exploratory Data Analysis yang dilakukan adala
 ## Data Preparation
 
 Adapun beberapa teknik data preparation yang dilakukan pada proyek ini adalah sebagai berikut.
-  1. Melakukan one-hot encoding pada fitur genres. (Content-Based Filtering)
-  2. Menghitung derajat kesamaan antar movie dengan cosine similarity. (Content-Based Filtering)
-  3. Melakukan encoding pada fitur userId dan movieId. (Collaborative Filtering)
-  4. Melakukan train-test split. (Collaborative Filtering)
+
+  1. Mengatasi Missing value. (Content-Based Filtering)
+  2. Membuat Data duplikat. (Content-Based Filtering)
+  3. Melakukan one-hot encoding pada fitur genres. (Content-Based Filtering)
+  4. Menghitung derajat kesamaan antar movie dengan cosine similarity. (Content-Based Filtering)
+  5. Melakukan encoding pada fitur userId dan movieId. (Collaborative Filtering)
+  6. Melakukan train-test split. (Collaborative Filtering)
 
 Penjelasan data preparation yang dilakukan:
 
-  1. Melakukan one-hot encoding: Fitur genre diubah menjadi representasi vektor biner.
-  2. Menghitung derajat kesamaan: Mengukur seberapa mirip dua vektor dengan menghitung cosinus dari sudut di antara keduanya.
-  3. Melakukan encoding pada userId dan movieId: Mengubah nilai kategorikal (id unik) menjadi format numerik.
-  4. Melakukan train-test split: Memisahkan data training dan data test dengan rasio 80:20 agar model dapat belajar dari sebagian besar data training dan diuji menggunakan data test yang   belum pernah dilihat model sebelumnya.
+  1. Mengatasi Missing value: Baris data yang memiliki fitur atau kolom yang kosong akan dihilangkan.
+  2. Membuang data duplikat: Berdasarkan fitur movieId, jika ada data yang memiliki id yang sama akan dihilangkan.
+  3. Melakukan one-hot encoding: Fitur genre diubah menjadi representasi vektor biner.
+  4. Menghitung derajat kesamaan: Mengukur seberapa mirip dua vektor dengan menghitung cosinus dari sudut di antara keduanya.
+  5. Melakukan encoding pada userId dan movieId: Mengubah nilai kategorikal (id unik) menjadi format numerik.
+  6. Melakukan train-test split: Memisahkan data training dan data test dengan rasio 80:20 agar model dapat belajar dari sebagian besar data training dan diuji menggunakan data test yang   belum pernah dilihat model sebelumnya.
 
 Alasan mengapa diperlukan tahapan data preparation tersebut:
 
-  1. Melakukan one-hot encoding: Algoritma seperti Content-Based Filtering memerlukan representasi fitur dalam bentuk vektor numerik agar bisa menghitung kemiripan antar movie.
-  2. Menghitung derajat kesamaan: Menghitung derajat kesamaan diperlukan agar sistem dapat menemukan movie yang paling mirip dengan yang disukai pengguna. Dalam Content-Based Filtering, sistem mencocokkan fitur seperti genre, lalu merekomendasikan movie lain yang memiliki kemiripan tinggi.
-  3. Melakukan encoding pada userId dan movieId: Memetakan ID ke posisi dalam matriks rating, yang digunakan oleh algoritma serta memastikan konsistensi dan efisiensi dalam pemrosesan data.
-  4. Melakukan train-test split: Memastikan bahwa model diuji dengan data yang tidak digunakan selama training sehingga dapat memberikan gambaran nyata tentang kinerja model saat digunakan menggunakan data baru.
+  1. Mengatasi missing value: Data yang memiliki missing value dapat menurunkan performa model yang sedang dilatih karena mengakibatkan bias. Sehingga data yang memiliki missing value harus diatasi.
+  2. Membuang data duplikat: Data duplikat dapat membuat model memberikan bobot yang berlebihan terhadap suatu item. Hal ini mengakibatkan bias dalam sistem rekomendasi jika tidak diatasi.
+  3. Melakukan one-hot encoding: Algoritma seperti Content-Based Filtering memerlukan representasi fitur dalam bentuk vektor numerik agar bisa menghitung kemiripan antar movie.
+  4. Menghitung derajat kesamaan: Menghitung derajat kesamaan diperlukan agar sistem dapat menemukan movie yang paling mirip dengan yang disukai pengguna. Dalam Content-Based Filtering, sistem mencocokkan fitur seperti genre, lalu merekomendasikan movie lain yang memiliki kemiripan tinggi.
+  5. Melakukan encoding pada userId dan movieId: Memetakan ID ke posisi dalam matriks rating, yang digunakan oleh algoritma serta memastikan konsistensi dan efisiensi dalam pemrosesan data.
+  6. Melakukan train-test split: Memastikan bahwa model diuji dengan data yang tidak digunakan selama training sehingga dapat memberikan gambaran nyata tentang kinerja model saat digunakan menggunakan data baru.
 
 ## Modeling
 
@@ -103,7 +110,15 @@ Tahapan dan parameter yang digunakan dalam proses pemodelan adalah sebagai berik
 Solusi rekomendasi dan algoritma yang digunakan sebagai berikut.
 
 - Content-Based Filtering menggunakan algoritma Cosine Similarity
-- Collaborative Filtering menggunakan yang menggunakan algoritma Deep Learning
+    Metode ini menampilkan setiap film sebagai vektor fitur yang didasarkan pada genrenya. Ketika teknik One-Hot Encoding digunakan, genre diubah menjadi representasi numerik. Selanjutnya, metode Cosine Similarity digunakan untuk menghitung tingkat kemiripan antara dua movie. Ini menghasilkan nilai antara 0 dan 1, dan semakin tinggi nilainya, semakin mirip kontennya. Berikut adalah contoh outputnya:
+
+  ![Screenshot 2025-04-24 142035](https://github.com/user-attachments/assets/381cc03b-7eb5-472f-a87a-e60be87f82ee)
+
+- Collaborative Filtering menggunakan model Deep Learning, RecommenderNet  
+    RecommenderNet adalah model berbasis deep learning yang menggunakan lapisan embedding untuk memetakan pengguna dan item (movie) ke dalam ruang vektor berdimensi rendah. Setiap pengguna dan item diwakili oleh vektor, dan prediksi nilai dibuat dengan menghitung dot product dari kedua lapisan. Model dilatih dengan loss function seperti Root Mean Squared Error, dan Adam optimizer digunakan untuk mengoptimasikannya. Dan pada pendekatan ini, rekomendasi movie yang diberikan adalah berdasarkan penilaian yang diberikan pengguna. Berikut adalah contoh outputnya:
+
+  ![Screenshot 2025-04-24 142949](https://github.com/user-attachments/assets/64f1e874-5e32-4318-bce7-2babc51ae7a1)
+
 
 ---
 
